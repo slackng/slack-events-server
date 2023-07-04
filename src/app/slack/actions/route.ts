@@ -3,8 +3,12 @@ import { NextRequest, NextResponse } from "next/server";
 export async function POST(request: NextRequest) {
     const body = await request.json();
     if (body["type"] === "block_actions") {
-        console.log(body["actions"][0]["action_id"])
-        return new NextResponse(null, { status: 200 });
+        try {
+            console.log(body["action"]["action_id"])
+            return new NextResponse(null, { status: 200 });
+        } catch (e: any) {
+            return new NextResponse(JSON.stringify({ error: e.message }), { status: 400 });
+        }
     }
 
     return new NextResponse(null, { status: 400 });
